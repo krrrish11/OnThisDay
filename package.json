@@ -1,0 +1,24 @@
+{
+  "name": "on-this-day",
+  "version": "1.0.0",
+  "description": "Explore history, one date at a time. Wikipedia-powered, with a visitor wall stored in MongoDB.",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test --test-force-exit"
+  },
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "compression": "^1.8.2",
+    "dotenv": "^18.0.8",
+    "express": "^4.22.3",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "mongoose": "^9.11.2",
+    "three": "0.170.0"
+  }
+}

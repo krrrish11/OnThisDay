@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitors — On This Day</title>
+<meta name="description" content="Leave a note on the On This Day visitor wall: your name, where you are reading from, and a date in history that matters to you.">
+<link rel="canonical" href="{{siteUrl}}/visitors">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Visitors — On This Day">
+<meta property="og:description" content="Read what other visitors wrote, and leave a note of your own.">
+<meta property="og:url" content="{{siteUrl}}/visitors">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/visitors.css">
+</head>
+<body>
+{{> header}}
+
+<div class="page-head">
+  <div class="page-head-in">
+    <h1>Visitors</h1>
+    <p><span class="count-badge" id="count">…</span> <span id="countLabel">readers have left a note.</span> Add yours, and tell us which date in history matters to you.</p>
+  </div>
+</div>
+
+<main id="main" class="wall" tabindex="-1">
+  <section class="signup" aria-labelledby="signupTitle">
+    <h2 id="signupTitle">Leave a note</h2>
+    <p>Your note appears on this page straight away. No links, please.</p>
+    <form id="visitorForm" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input class="input" id="name" name="name" type="text" autocomplete="name" maxlength="60" required aria-describedby="name-err">
+        <p class="field-error" id="name-err"></p>
+      </div>
+      <div class="field">
+        <label for="place">Reading from <span class="opt">(optional)</span></label>
+        <input class="input" id="place" name="place" type="text" autocomplete="address-level2" maxlength="80" placeholder="City or country" aria-describedby="place-err">
+        <p class="field-error" id="place-err"></p>
+      </div>
+      <div class="field">
+        <span class="label" id="fav-label">A date that matters to you <span class="opt">(optional)</span></span>
+        <div class="date-pick" role="group" aria-labelledby="fav-label">
+          <label class="select"><span class="vh">Month</span><select id="favMonth" name="favMonth"></select></label>
+          <label class="select"><span class="vh">Day</span><select id="favDay" name="favDay"></select></label>
+        </div>
+        <p class="field-error" id="favDate-err"></p>
+      </div>
+      <div class="field">
+        <label for="message">Your note</label>
+        <textarea class="input" id="message" name="message" maxlength="280" required aria-describedby="message-err message-count"></textarea>
+        <span class="counter" id="message-count">0 / 280</span>
+        <p class="field-error" id="message-err"></p>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-status" id="formStatus" role="status"></p>
+      <button class="btn" id="submit" type="submit">Post note</button>
+    </form>
+  </section>
+
+  <section class="entries" aria-labelledby="entriesTitle">
+    <div class="entries-head">
+      <h2 id="entriesTitle">Recent notes</h2>
+      <p id="entriesMeta" aria-live="polite"></p>
+    </div>
+    <div id="list"></div>
+  </section>
+</main>
+
+{{> footer}}
+<script type="module" src="/js/pages/visitors.js"></script>
+</body>
+</html>

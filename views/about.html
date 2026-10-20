@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About and privacy — On This Day</title>
+<meta name="description" content="How On This Day works, where the history comes from, and exactly what the visitor wall stores about you.">
+<link rel="canonical" href="{{siteUrl}}/about">
+<meta property="og:type" content="website">
+<meta property="og:title" content="About and privacy — On This Day">
+<meta property="og:description" content="How the site works and what the visitor wall stores.">
+<meta property="og:url" content="{{siteUrl}}/about">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/about.css">
+</head>
+<body>
+{{> header}}
+
+<main id="main" class="prose-wrap" tabindex="-1">
+  <article class="prose">
+    <h1>About</h1>
+    <p class="lead">Every calendar day has a past. This site lets you turn the dial and read it.</p>
+
+    <h2>How to use it</h2>
+    <ul>
+      <li>Drag the <strong>outer ring</strong> of the dial to change the day, the <strong>middle disc</strong> to change the month, or the <strong>blue centre</strong> to scrub through the whole year.</li>
+      <li>Prefer controls? Use the month and day menus, the arrows, or <strong>Today</strong>. On a keyboard, <kbd>←</kbd> and <kbd>→</kbd> step one day, and <kbd>/</kbd> jumps to search.</li>
+      <li>Switch between events, births, deaths and holidays, search within the day, and flip the order from oldest to newest.</li>
+      <li>The address always holds your date and category, so you can copy it and share exactly what you are looking at.</li>
+    </ul>
+
+    <h2>Where the history comes from</h2>
+    <p>All historical entries come live from <a href="https://api.wikimedia.org/wiki/Feed_API/Reference/On_this_day" target="_blank" rel="noopener">Wikipedia's On This Day feed</a>. Nothing is written or edited here. Text is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, and every entry links back to the Wikipedia article it came from. The server keeps a copy of each day for a few hours so the page loads fast and Wikipedia is not asked the same question twice.</p>
+
+    <h2>The visitor wall and your privacy</h2>
+    <p>If you post on the <a href="/visitors">Visitors</a> page, we store exactly what you type: your name, the place you entered (optional), the date you picked (optional), your note, and the time you posted it. All of that is shown publicly.</p>
+    <ul>
+      <li>We do not store your IP address, email or any account. There are no cookies and no analytics.</li>
+      <li>To limit spam, the server counts posts per IP address in temporary memory. That counter is not written to the database.</li>
+      <li>Please do not post anything you would not want public. Notes with links are rejected.</li>
+      <li>To have a note removed, contact the site owner through <a href="https://github.com/krrrish11" target="_blank" rel="noopener">GitHub</a> and mention the name and text of the note.</li>
+    </ul>
+  </article>
+</main>
+
+{{> footer}}
+</body>
+</html>

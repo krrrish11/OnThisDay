@@ -1,0 +1,22 @@
+/* Design tokens — Glacier */
+:root{
+  --background:#e7eef2;
+  --surface:#f6f9fb;
+  --surface-elevated:#ffffff;
+  --text:#14222c;
+  --text-muted:#3d505c;
+  --accent:#2f6b94;
+  --accent-deep:#24587c;
+  --accent-secondary:#7f95a3;
+  --danger:#a23b3b;
+  --border:rgba(20,34,44,.14);
+  --border-strong:rgba(20,34,44,.3);
+  --shadow:0 16px 32px -22px rgba(20,34,44,.45);
+  --serif:'Fraunces',Georgia,'Times New Roman',serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --chrome:#dbe5eb;
+  --bar:72px;
+  --stick:var(--bar);
+  --ease:cubic-bezier(.22,.8,.3,1);
+  color-scheme:light;
+}

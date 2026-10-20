@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: on-this-day
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: SITE_URL
+        sync: false   # e.g. https://onthisday.yourdomain.com
+      - key: MONGO_URI
+        sync: false   # MongoDB Atlas connection string
+      - key: ADMIN_TOKEN
+        generateValue: true

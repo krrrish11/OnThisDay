@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>On This Day — Discover History</title>
+<meta name="description" content="Explore history, one date at a time. Browse events, births, deaths and holidays for any day of the year, powered by Wikipedia's On This Day feed.">
+<link rel="canonical" href="{{siteUrl}}/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="On This Day — Discover History">
+<meta property="og:description" content="Discover the people, events, discoveries and moments that shaped history. Pick any date and explore.">
+<meta property="og:url" content="{{siteUrl}}/">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"On This Day","url":"{{siteUrl}}/","description":"Explore history, one date at a time."}</script>
+{{> head-assets}}
+<link rel="stylesheet" href="/css/hero.css">
+<link rel="stylesheet" href="/css/explore.css">
+<script type="importmap">
+{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}
+</script>
+</head>
+<body>
+{{> header}}
+
+<div class="hero">
+ <div class="hero-in">
+  <div class="copy">
+    <p class="datehead"><span class="mname" id="mname"></span><span class="dnum" id="dnum"></span></p>
+    <h1 class="tagline">Explore history, one date at a time.</h1>
+    <p class="lede">Discover the people, events, discoveries and moments that shaped history.</p>
+  </div>
+  <div class="dialwrap" id="dialwrap">
+    <canvas class="stage" id="stage" role="img" aria-label="A watch dial with no hands. The outer ring shows the day, the middle disc the month, and the blue centre the position in the year. Drag any of them to change the date."></canvas>
+  </div>
+  <div class="ctrl">
+    <div class="controls" role="group" aria-label="Choose a date">
+      <button class="icon-btn" id="prev" type="button" aria-label="Previous day"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <label class="select"><span class="vh">Month</span><select id="month"></select></label>
+      <label class="select"><span class="vh">Day</span><select id="day"></select></label>
+      <button class="icon-btn" id="next" type="button" aria-label="Next day"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="btn" id="today" type="button">Today</button>
+    </div>
+    <p class="hint">Drag the outer ring for the day, the middle disc for the month, or the blue centre to scrub the year. You can also press <kbd>←</kbd> and <kbd>→</kbd> to step through days.</p>
+  </div>
+ </div>
+</div>
+
+<div class="layout">
+  <div class="bar">
+    <div class="bar-in">
+      <div class="mini">
+        <button class="icon-btn" id="miniPrev" type="button" aria-label="Previous day"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <b id="miniDate"></b>
+        <button class="icon-btn" id="miniNext" type="button" aria-label="Next day"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+      <div class="tabs" id="tabs" role="group" aria-label="Category"></div>
+      <div class="tools">
+        <label class="search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>
+          <span class="vh">Search this date</span>
+          <input id="q" type="search" autocomplete="off" spellcheck="false">
+        </label>
+        <button class="btn-quiet" id="sort" type="button"></button>
+      </div>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <div class="head">
+      <h2 id="resHead">Loading</h2>
+      <p id="resMeta" aria-live="polite"></p>
+    </div>
+    <div id="results"></div>
+    <noscript><p>This page needs JavaScript to load the day's history.</p></noscript>
+  </main>
+</div>
+
+{{> footer}}
+<script type="module" src="/js/pages/explore.js"></script>
+</body>
+</html>

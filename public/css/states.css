@@ -1,0 +1,12 @@
+/* Shared empty / error / loading states */
+.state{max-width:520px;margin:40px auto;padding:44px 24px;text-align:center;border:1px dashed var(--border-strong);border-radius:12px;background:var(--surface)}
+.state .badge{display:inline-grid;place-items:center;width:56px;height:56px;border-radius:50%;border:1px solid var(--border-strong);color:var(--accent);margin-bottom:14px}
+.state.err .badge{color:var(--danger);border-color:var(--danger)}
+.state .badge svg{width:26px;height:26px}
+.state h3{margin:0 0 8px;font:600 24px/1.2 var(--serif);font-variation-settings:"opsz" 72}
+.state p{margin:0 0 20px;color:var(--text-muted)}
+.sk,.sk.card,.sk.note{background:linear-gradient(90deg,#e3ebf0 0,#f4f8fa 50%,#e3ebf0 100%);background-size:200% 100%;animation:shim 1.4s linear infinite;border-radius:6px}
+.sk.card{min-height:132px;display:block;box-shadow:none}
+.sk.card:hover{transform:none}
+.sk.yr{height:30px;width:80px;margin-left:auto}
+@keyframes shim{to{background-position:-200% 0}}

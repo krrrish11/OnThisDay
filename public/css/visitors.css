@@ -1,0 +1,34 @@
+/* Visitors page */
+.page-head{background:linear-gradient(180deg,var(--chrome),var(--background));padding:clamp(28px,5vw,56px) clamp(18px,4vw,48px) 12px}
+.page-head-in,.wall{max-width:1240px;margin:0 auto}
+.page-head h1{margin:0;font:600 clamp(34px,6vw,64px)/1.05 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.01em}
+.page-head p{margin:14px 0 0;max-width:58ch;color:var(--text-muted);font-size:18px}
+.count-badge{font-variant-numeric:lining-nums;color:var(--text);font-weight:600}
+.wall{padding:28px clamp(18px,4vw,48px) 80px;display:grid;gap:36px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:960px){.wall{grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}.signup{position:sticky;top:24px}}
+
+.signup{background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:clamp(18px,3vw,28px)}
+.signup h2,.entries h2{margin:0 0 4px;font:600 26px/1.2 var(--serif);font-variation-settings:"opsz" 72}
+.signup > p{margin:0 0 18px;color:var(--text-muted);font-size:15px}
+.signup form{display:grid;gap:14px}
+.signup textarea.input{min-height:112px;resize:vertical}
+.date-pick{display:grid;grid-template-columns:1fr 90px;gap:8px}
+.date-pick .select select{width:100%}
+.counter{justify-self:end;font:400 12px var(--mono);color:var(--text-muted)}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.form-status{margin:0;padding:10px 12px;border-radius:6px;font:500 13px/1.5 var(--mono);display:none}
+.form-status.ok{display:block;background:rgba(47,107,148,.12);color:var(--accent-deep)}
+.form-status.bad{display:block;background:rgba(162,59,59,.1);color:var(--danger)}
+
+.entries-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:18px}
+.entries-head p{margin:0;font:400 13px var(--mono);color:var(--text-muted)}
+.notes{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.note{padding:18px 20px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow)}
+.note blockquote{margin:0 0 12px;font-size:18px;line-height:1.55;overflow-wrap:anywhere}
+.note footer{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;font:400 12.5px var(--mono);color:var(--text-muted)}
+.note .who{color:var(--text);font-weight:500}
+.note .when{margin-left:auto}
+.date-chip{padding:3px 9px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.6);color:var(--accent-deep);text-decoration:none}
+.date-chip:hover{border-color:var(--accent)}
+.more{display:flex;justify-content:center;margin-top:22px}
+.sk.note{min-height:104px;box-shadow:none}
