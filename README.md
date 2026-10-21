@@ -7,11 +7,12 @@ Explore history one date at a time. Wikipedia "On This Day" data, a 3D watch-dia
 npm install
 cp .env.example .env     # optional; without MONGO_URI notes are kept in memory only
 npm run dev              # http://localhost:3000
-npm test                 # 20 API/page tests
+npm test                 # API and page tests
 ```
 
 ## Structure
 - `server/` Express app: `routes/` (history proxy, visitors), `services/wikipedia.js` (cache, dedupe, stale fallback), `stores/` (Mongo or memory), `middleware/` (CSP, rate limit, admin, errors)
+- `/entry` details page: Wikipedia summaries per linked article via `GET /api/summary/:title` (cached 24h), facts, same-year entries, previous/next
 - `views/` HTML pages with shared `partials/` (header, footer)
 - `public/css`, `public/js` (core, api, components, pages), self-hosted fonts; three.js served from `node_modules`
 

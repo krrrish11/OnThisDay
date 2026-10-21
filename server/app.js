@@ -7,10 +7,11 @@ import { inlineScriptHashes, securityHeaders } from './middleware/security.js';
 import { apiLimiter } from './middleware/rateLimit.js';
 import { apiNotFound, errorHandler } from './middleware/errors.js';
 import { historyRouter } from './routes/history.js';
+import { summaryRouter } from './routes/summary.js';
 import { visitorsRouter } from './routes/visitors.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = { '/': 'index', '/visitors': 'visitors', '/about': 'about' };
+const PAGES = { '/': 'index', '/visitors': 'visitors', '/about': 'about', '/entry': 'entry' };
 
 const parseTrustProxy = (v) => (v === 'true' ? true : v === 'false' ? false : /^\d+$/.test(String(v)) ? Number(v) : v);
 
@@ -46,6 +47,7 @@ export function createApp({ store, wikipedia, config }) {
     res.status(ok ? 200 : 503).json({ ok, store: store.kind, uptime: Math.round(process.uptime()) });
   });
   app.use('/api/history', historyRouter({ wikipedia }));
+  app.use('/api/summary', summaryRouter({ wikipedia }));
   app.use('/api/visitors', visitorsRouter({ store, adminToken: config.adminToken, postsPerHour: config.visitorPostLimit }));
   app.use('/api', apiNotFound);
 
@@ -57,7 +59,7 @@ export function createApp({ store, wikipedia, config }) {
     res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`),
   );
   app.get('/sitemap.xml', (_req, res) => {
-    const urls = Object.keys(PAGES).map((p) => `  <url><loc>${config.siteUrl}${p === '/' ? '/' : p}</loc></url>`).join('\n');
+    const urls = Object.keys(PAGES).filter((p) => p !== '/entry').map((p) => `  <url><loc>${config.siteUrl}${p === '/' ? '/' : p}</loc></url>`).join('\n');
     res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
   });
   app.use((_req, res) => res.status(404).set('Cache-Control', 'no-cache').type('html').send(render('404')));

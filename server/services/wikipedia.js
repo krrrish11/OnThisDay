@@ -28,6 +28,19 @@ export function slimPage(p) {
   return page;
 }
 
+/** Page summary from the REST API, reduced to what the details page shows. */
+export function slimSummary(j) {
+  const title = typeof j?.title === 'string' ? j.title : '';
+  const out = { title, type: typeof j?.type === 'string' ? j.type : 'standard' };
+  if (typeof j?.description === 'string') out.description = j.description.slice(0, 200);
+  if (typeof j?.extract === 'string') out.extract = j.extract.slice(0, 1500);
+  const url = safeUrl(j?.content_urls?.desktop?.page, isWikiHost);
+  if (url) out.url = url;
+  const thumb = safeUrl(j?.thumbnail?.source, isMediaHost);
+  if (thumb) out.thumbnail = thumb;
+  return out;
+}
+
 export function slim(data) {
   const out = {};
   for (const type of TYPES) {
@@ -35,7 +48,7 @@ export function slim(data) {
     out[type] = list
       .filter((it) => typeof it?.text === 'string')
       .map((it) => {
-        const item = { text: it.text, pages: (it.pages || []).slice(0, 3).map(slimPage).filter((p) => p.title) };
+        const item = { text: it.text, pages: (it.pages || []).slice(0, 5).map(slimPage).filter((p) => p.title) };
         if (Number.isInteger(it.year)) item.year = it.year;
         return item;
       });
@@ -95,5 +108,53 @@ export function createWikipedia({ fetchImpl = fetch, ttlMs, contact, timeoutMs =
     }
   }
 
-  return { getDay };
+  // ---- page summaries (details page) ----
+  const SUMMARY_ENDPOINT = 'https://en.wikipedia.org/api/rest_v1/page/summary';
+  const SUMMARY_TTL = 24 * 3600 * 1000;
+  const SUMMARY_MAX = 500;
+  const summaries = new Map(); // title -> { data, expires }  (insertion order = oldest first)
+  const summaryInflight = new Map();
+
+  async function fetchSummary(title) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+    try {
+      const res = await fetchImpl(`${SUMMARY_ENDPOINT}/${encodeURIComponent(title.replace(/ /g, '_'))}?redirect=true`, {
+        signal: ctrl.signal,
+        headers: { 'user-agent': userAgent, accept: 'application/json' },
+      });
+      if (res.status === 404) throw new HttpError(404, 'No Wikipedia summary for that title.');
+      if (!res.ok) throw new Error(`Wikipedia responded ${res.status}`);
+      return slimSummary(await res.json());
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function getSummary(title) {
+    const hit = summaries.get(title);
+    if (hit && hit.expires > Date.now()) return { data: hit.data, source: 'cache' };
+    if (!summaryInflight.has(title)) {
+      summaryInflight.set(
+        title,
+        fetchSummary(title)
+          .then((data) => {
+            summaries.delete(title);
+            summaries.set(title, { data, expires: Date.now() + SUMMARY_TTL });
+            if (summaries.size > SUMMARY_MAX) summaries.delete(summaries.keys().next().value);
+            return data;
+          })
+          .finally(() => summaryInflight.delete(title)),
+      );
+    }
+    try {
+      return { data: await summaryInflight.get(title), source: 'wikipedia' };
+    } catch (err) {
+      if (err instanceof HttpError) throw err;
+      if (hit) return { data: hit.data, source: 'stale' };
+      throw new HttpError(502, 'Wikipedia is not reachable right now.', { cause: err.message });
+    }
+  }
+
+  return { getDay, getSummary };
 }

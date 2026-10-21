@@ -1,6 +1,6 @@
 import { el, highlight, safeImageUrl, safePageUrl } from '../core/dom.js';
 import { icon } from '../core/icons.js';
-import { fmtYear, yearsAgo } from '../core/dates.js';
+import { entryHref, fmtYear, yearsAgo } from '../core/dates.js';
 
 /* ---------- state panels ---------- */
 
@@ -59,7 +59,7 @@ export function skeleton(rows = 4) {
 
 /* ---------- entries ---------- */
 
-function buildCard(item, type, q) {
+function buildCard(item, type, q, href) {
   const card = el('article', 'card');
   const body = el('div');
   const text = el('p', 'txt');
@@ -78,6 +78,10 @@ function buildCard(item, type, q) {
     refs.append(a);
   }
   if (refs.children.length) body.append(refs);
+  const more = el('a', 'more', 'Details');
+  more.href = href;
+  more.setAttribute('aria-label', `Details: ${(item.text || '').slice(0, 80)}`);
+  body.append(more);
 
   const thumb = el('div', 'thumb');
   const src = safeImageUrl(pages[0]?.thumbnail);
@@ -109,17 +113,19 @@ const matches = (it, q) =>
  * Build the results block. Returns { node, shown, total } — node is a panel when there is
  * nothing to show, so the caller just inserts it.
  */
-export function buildEntries({ list, type, q, asc, onClearSearch }) {
+export function buildEntries({ list, type, q, asc, date, onClearSearch }) {
   const total = list.length;
   if (!total) return { node: emptyPanel(), shown: 0, total };
 
+  const position = new Map(list.map((it, i) => [it, i])); // each entry's place in the API list, for its details link
+  const hrefOf = (it) => entryHref(date, type, position.get(it), it.year);
   const needle = q.trim().toLowerCase();
   const items = needle ? list.filter((it) => matches(it, needle)) : list;
   if (!items.length) return { node: noMatchPanel(q.trim(), onClearSearch), shown: 0, total };
 
   if (type === 'holidays') {
     const grid = el('div', 'flat');
-    items.forEach((it) => grid.append(buildCard(it, type, needle)));
+    items.forEach((it) => grid.append(buildCard(it, type, needle, hrefOf(it))));
     return { node: grid, shown: items.length, total };
   }
 
@@ -135,7 +141,7 @@ export function buildEntries({ list, type, q, asc, onClearSearch }) {
     const yl = el('div', 'yl');
     if (year !== undefined) yl.append(el('span', 'y', fmtYear(year)), el('span', 'ago', yearsAgo(year)));
     const stack = el('div', 'stack');
-    arr.forEach((it) => stack.append(buildCard(it, type, needle)));
+    arr.forEach((it) => stack.append(buildCard(it, type, needle, hrefOf(it))));
     g.append(yl, stack);
     ul.append(g);
   });

@@ -49,3 +49,22 @@ export function timeAgo(iso, now = Date.now()) {
   if (abs < 86400 * 30) return rtf.format(Math.round(secs / 86400), 'day');
   return new Date(iso).toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
 }
+
+/**
+ * Weekday name for a month/day in a given year, or null when it can't be trusted:
+ * before 1583 Wikipedia's dates are Julian, so a Gregorian weekday would be wrong.
+ */
+export function weekdayName({ m, d }, year) {
+  if (!Number.isInteger(year) || year < 1583) return null;
+  const t = new Date(Date.UTC(2000, m - 1, d));
+  t.setUTCFullYear(year);
+  if (t.getUTCMonth() !== m - 1) return null; // Feb 29 in a non-leap year
+  return t.toLocaleDateString('en-US', { weekday: 'long', timeZone: 'UTC' });
+}
+
+/** Link to an entry's details page. `index` is its position in the API list for that date and type. */
+export function entryHref(date, type, index, year) {
+  const p = new URLSearchParams({ date: toParam(date), type, i: String(index) });
+  if (Number.isInteger(year)) p.set('y', String(year));
+  return `/entry?${p}`;
+}

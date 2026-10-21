@@ -49,6 +49,7 @@ function render(animate = false) {
     type: state.type,
     q: state.q,
     asc: state.asc,
+    date: state.date,
     onClearSearch: () => {
       state.q = '';
       rail.setQuery('');

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entry details — On This Day</title>
+<meta name="description" content="More detail on a historical event, birth, death or holiday: the people and places involved, summaries from Wikipedia, and what else happened that year.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="{{siteUrl}}/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Entry details — On This Day">
+<meta property="og:description" content="Explore history, one date at a time.">
+<meta property="og:url" content="{{siteUrl}}/">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/entry.css">
+</head>
+<body>
+{{> header}}
+
+<main id="main" class="entry-wrap" tabindex="-1">
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a id="backLink" href="/">&larr; Back to the dial</a>
+  </nav>
+  <div id="entry" aria-live="polite" aria-busy="true"></div>
+  <noscript><p class="nojs">This page needs JavaScript to load details from Wikipedia.</p></noscript>
+</main>
+
+{{> footer}}
+<script type="module" src="/js/pages/entry.js"></script>
+</body>
+</html>

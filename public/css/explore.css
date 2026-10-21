@@ -73,3 +73,6 @@ main{min-width:0;padding:40px 0 80px}
   .search{flex:1}
 }
 @media (max-width:380px){.card{grid-template-columns:1fr}.thumb{display:none}}
+.card .more{display:inline-block;margin-top:12px;font:500 12.5px var(--mono);color:var(--accent-deep);text-decoration:none;border-bottom:1px solid transparent}
+.card .more::after{content:" →"}
+.card .more:hover,.card .more:focus-visible{border-bottom-color:var(--accent)}
