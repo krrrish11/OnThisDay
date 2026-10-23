@@ -18,7 +18,7 @@ const parseTrustProxy = (v) => (v === 'true' ? true : v === 'false' ? false : /^
 export function createApp({ store, wikipedia, config }) {
   const app = express();
   app.disable('x-powered-by');
-  app.set('trust proxy', false);
+  app.set('trust proxy', parseTrustProxy(config.trustProxy));
 
   const render = createRenderer({ viewsDir: join(ROOT, 'views'), siteUrl: config.siteUrl, cache: config.isProd });
   const hashes = inlineScriptHashes([...Object.values(PAGES), '404'].map((v) => render(v)));
