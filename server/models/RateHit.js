@@ -5,4 +5,4 @@ const rateHitSchema = new mongoose.Schema({ key: { type: String, required: true 
 rateHitSchema.index({ key: 1, at: -1 });
 rateHitSchema.index({ at: 1 }, { expireAfterSeconds: 3700 });
 
-export const RateHit = mongoose.models.RateHit || mongoose.model('RateHit', rateHitSchema);
+export const RateHit = mongoose.models.RateHit || mongoose.model('RateHit', rateHitSchema, 'otd_ratehits');

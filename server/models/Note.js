@@ -24,4 +24,4 @@ noteSchema.index({ createdAt: -1, _id: -1 }); // the wall, newest first
 noteSchema.index({ isPrivate: 1, month: 1, day: 1, year: -1 }); // "On This Day"
 noteSchema.index({ ownerId: 1, createdAt: -1 }); // My notes
 
-export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema);
+export const Note = mongoose.models.Note || mongoose.model('Note', noteSchema, 'otd_notes');
