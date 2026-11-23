@@ -17,3 +17,5 @@ services:
         sync: false   # MongoDB Atlas connection string
       - key: ADMIN_TOKEN
         generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true

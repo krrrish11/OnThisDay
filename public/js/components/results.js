@@ -10,9 +10,12 @@ export function panel({ tone = '', iconName, title, message, action }) {
   badge.append(icon(iconName, 26));
   box.append(badge, el('h3', null, title), el('p', null, message));
   if (action) {
-    const b = el('button', 'btn', action.label);
-    b.type = 'button';
-    b.addEventListener('click', action.onClick);
+    const b = el(action.href ? 'a' : 'button', 'btn', action.label);
+    if (action.href) b.href = action.href;
+    else {
+      b.type = 'button';
+      b.addEventListener('click', action.onClick);
+    }
     box.append(b);
   }
   return box;

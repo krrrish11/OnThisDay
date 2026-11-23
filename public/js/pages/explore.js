@@ -4,6 +4,7 @@ import { fetchDay } from '../api/history.js';
 import { createDateControls } from '../components/dateControls.js';
 import { createCategoryRail } from '../components/categoryRail.js';
 import { buildEntries, errorPanel, skeleton } from '../components/results.js';
+import { createMemories } from '../components/memories.js';
 
 const TYPES = { events: 'Events', births: 'Births', deaths: 'Deaths', holidays: 'Holidays' };
 
@@ -18,6 +19,7 @@ const state = {
 };
 
 const results = $('results');
+const memories = createMemories();
 let dial = null;
 
 /* ---------- URL + page chrome ---------- */
@@ -68,6 +70,7 @@ async function load() {
   const token = ++state.token;
   state.data = null;
   syncUrl();
+  memories.show(state.date);
   updateChrome();
   $('resMeta').textContent = 'Fetching from Wikipedia…';
   results.replaceChildren(skeleton());

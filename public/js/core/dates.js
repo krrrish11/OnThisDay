@@ -68,3 +68,49 @@ export function entryHref(date, type, index, year) {
   if (Number.isInteger(year)) p.set('y', String(year));
   return `/entry?${p}`;
 }
+
+/* ---------- note dates (full YYYY-MM-DD, as stored on notes) ---------- */
+
+const pad = (n) => String(n).padStart(2, '0');
+
+/** Today in the reader's own time zone, as "YYYY-MM-DD" (what <input type="date"> wants). */
+export function todayIso(now = new Date()) {
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+/** "2024-03-12" -> "12 March 2024". Parsed by hand so the reader's time zone cannot shift the day. */
+export function fmtLong(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  return m ? `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${Number(m[1])}` : '';
+}
+export function fmtShort(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  return m ? `${Number(m[3])} ${MONTH_ABBR[Number(m[2]) - 1]} ${Number(m[1])}` : '';
+}
+
+/** How long ago a calendar date was: "today", "3 days ago", "5 months ago", "2 years ago". */
+export function dateAgo(iso, now = new Date()) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  if (!m) return '';
+  const y = Number(m[1]);
+  const mo = Number(m[2]);
+  const d = Number(m[3]);
+  const days = Math.round((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(y, mo - 1, d)) / 86_400_000);
+  if (days < 0) return 'upcoming';
+  if (days === 0) return 'today';
+  if (days === 1) return 'yesterday';
+  if (days < 31) return `${days} days ago`;
+  let months = (now.getFullYear() - y) * 12 + (now.getMonth() + 1 - mo);
+  if (now.getDate() < d) months -= 1;
+  if (months < 12) return `${Math.max(months, 1)} ${months === 1 ? 'month' : 'months'} ago`;
+  const years = Math.floor(months / 12);
+  return `${years} ${years === 1 ? 'year' : 'years'} ago`;
+}
+
+/** "This year", "1 year ago", "5 years ago" for a memory group on the Explore page. */
+export function yearsAgoLabel(year, now = new Date().getFullYear()) {
+  const n = now - year;
+  if (n === 0) return 'This year';
+  if (n < 0) return 'Upcoming';
+  return n === 1 ? '1 year ago' : `${n} years ago`;
+}

@@ -1,13 +1,21 @@
 import mongoose from 'mongoose';
 import { Visitor } from '../models/Visitor.js';
 import { decodeCursor, encodeCursor, toPublic } from './cursor.js';
+import { createMongoNotes, createMongoRate, createMongoUsers } from './mongoAccounts.js';
+import { Note } from '../models/Note.js';
+import { User } from '../models/User.js';
+import { RateHit } from '../models/RateHit.js';
 
 export async function createMongoStore(uri) {
   mongoose.set('strictQuery', true);
   await mongoose.connect(uri, { serverSelectionTimeoutMS: 8000 });
+  await Promise.all([Note.init(), User.init(), RateHit.init()]); // make sure the unique and TTL indexes exist
 
   return {
     kind: 'mongodb',
+    notes: createMongoNotes(),
+    users: createMongoUsers(),
+    rate: createMongoRate(),
     async list({ limit, before }) {
       const query = {};
       const cur = decodeCursor(before);

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moderation — On This Day</title>
+<meta name="description" content="Moderation tools.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="{{siteUrl}}/admin">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="Moderation — On This Day">
+<meta property="og:description" content="Moderation tools.">
+<meta property="og:url" content="{{siteUrl}}/admin">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/notes.css">
+</head>
+<body>
+{{> header}}
+<div class="page-head">
+  <div class="page-head-in">
+    <h1>Moderation</h1>
+    <p>Remove spam or inappropriate notes. Only public notes are listed here.</p>
+  </div>
+</div>
+<main id="main" class="wall-main" tabindex="-1">
+  <form class="admin-key" id="keyForm" novalidate>
+    <label for="adminKey">Admin key</label>
+    <input class="input" id="adminKey" type="password" autocomplete="off" required>
+    <button class="btn" type="submit">Unlock</button>
+    <p class="field-error" id="keyErr" role="alert"></p>
+  </form>
+  <div id="panel" hidden>
+    <form class="filters" id="filters" role="search" aria-label="Search notes" novalidate>
+      <label class="search search-wide">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>
+        <span class="vh">Search notes</span>
+        <input id="q" type="search" placeholder="Search words, a name or an ID" autocomplete="off" maxlength="80">
+      </label>
+    </form>
+    <p class="results-meta" id="meta" aria-live="polite"></p>
+    <div id="list"></div>
+  </div>
+</main>
+{{> footer}}
+<script type="module" src="/js/pages/admin.js"></script>
+</body>
+</html>

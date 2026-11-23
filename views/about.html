@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About and privacy — On This Day</title>
-<meta name="description" content="How On This Day works, where the history comes from, and exactly what the visitor wall stores about you.">
+<meta name="description" content="How On This Day works, where the history comes from, and exactly what notes and accounts store about you.">
 <link rel="canonical" href="{{siteUrl}}/about">
 <meta property="og:type" content="website">
 <meta property="og:title" content="About and privacy — On This Day">
-<meta property="og:description" content="How the site works and what the visitor wall stores.">
+<meta property="og:description" content="How the site works and what notes and accounts store.">
 <meta property="og:url" content="{{siteUrl}}/about">
 <meta name="twitter:card" content="summary">
 {{> head-assets}}
@@ -33,13 +33,15 @@
     <h2>Where the history comes from</h2>
     <p>All historical entries come live from <a href="https://api.wikimedia.org/wiki/Feed_API/Reference/On_this_day" target="_blank" rel="noopener">Wikipedia's On This Day feed</a>. Nothing is written or edited here. Text is available under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, and every entry links back to the Wikipedia article it came from. The server keeps a copy of each day for a few hours so the page loads fast and Wikipedia is not asked the same question twice.</p>
 
-    <h2>The visitor wall and your privacy</h2>
-    <p>If you post on the <a href="/visitors">Visitors</a> page, we store exactly what you type: your name, the place you entered (optional), the date you picked (optional), your note, and the time you posted it. All of that is shown publicly.</p>
+    <h2>Notes, the Wall and your privacy</h2>
+    <p>If you add a note on <a href="/add">Add a note</a>, we store exactly what you type: the note (up to 2000 characters), the date you chose, an optional display name, an optional photo, and the time you posted it. Public notes appear on the <a href="/wall">Wall</a> and on their own page. Private notes are visible only to you, when you are logged in.</p>
     <ul>
-      <li>We do not store your IP address, email or any account. There are no cookies and no analytics.</li>
-      <li>To limit spam, the server counts posts per IP address in temporary memory. That counter is not written to the database.</li>
-      <li>Please do not post anything you would not want public. Notes with links are rejected.</li>
-      <li>To have a note removed, contact the site owner through <a href="https://github.com/krrrish11" target="_blank" rel="noopener">GitHub</a> and mention the name and text of the note.</li>
+      <li><strong>Photos</strong> are shrunk in your browser before upload, which also removes camera data such as GPS location. One photo per note.</li>
+      <li><strong>Accounts are optional.</strong> If you make one we store a username and a hashed password (never the password itself). Logging in sets one cookie that keeps you signed in for 30 days; it is not used for tracking. There is no email and no analytics.</li>
+      <li><strong>Guests</strong> get a secret delete key when they post. It is kept in your browser, and we only store a hash of it. Clear your browser data and you lose the ability to delete that note yourself.</li>
+      <li><strong>Spam limits:</strong> to allow 10 notes per hour, we keep a scrambled (hashed) form of your network address and your account for about an hour, then it is deleted automatically. We cannot turn it back into an IP address.</li>
+      <li>Please do not post anything you would not want public. Public notes with links are rejected.</li>
+      <li>Logged-in users can delete their own notes any time from <a href="/my-notes">My notes</a>. To have another note removed, contact the site owner through <a href="https://github.com/krrrish11" target="_blank" rel="noopener">GitHub</a> with the note ID.</li>
     </ul>
   </article>
 </main>

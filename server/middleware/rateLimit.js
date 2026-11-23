@@ -18,3 +18,7 @@ export const postLimiter = (limit) =>
     legacyHeaders: false,
     handler: json('You have posted a few times already. Please try again in an hour.'),
   });
+
+/** A plain per-IP limiter with a custom message (used for sign-up and log-in attempts). */
+export const attemptLimiter = ({ windowMs, limit, message }) =>
+  rateLimit({ windowMs, limit, standardHeaders: 'draft-7', legacyHeaders: false, handler: json(message) });

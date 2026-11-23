@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Log in — On This Day</title>
+<meta name="description" content="Log in or create an account to keep private notes and see all your notes in one place.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{{siteUrl}}/login">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="Log in — On This Day">
+<meta property="og:description" content="Log in or create an account to keep private notes and see all your notes in one place.">
+<meta property="og:url" content="{{siteUrl}}/login">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/notes.css">
+<link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+{{> header}}
+<main id="main" class="login-main" tabindex="-1">
+  <div class="login-card">
+    <h1 id="loginTitle">Welcome back</h1>
+    <p class="add-sub" id="loginSub">Log in to see your notes and keep private ones. You can always post public notes without an account.</p>
+    <div class="tabs-lite" role="tablist" aria-label="Log in or create an account">
+      <button class="tab" role="tab" id="tabLogin" aria-selected="true" aria-controls="panelLogin" type="button">Log in</button>
+      <button class="tab" role="tab" id="tabRegister" aria-selected="false" aria-controls="panelRegister" tabindex="-1" type="button">Create account</button>
+    </div>
+    <p class="form-status" id="authStatus" role="status"></p>
+
+    <form id="panelLogin" role="tabpanel" aria-labelledby="tabLogin" novalidate>
+      <div class="field"><label for="liUser">Username</label>
+        <input class="input" id="liUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="liUser-err">
+        <p class="field-error" id="liUser-err"></p></div>
+      <div class="field"><label for="liPass">Password</label>
+        <input class="input" id="liPass" name="password" type="password" autocomplete="current-password" required aria-describedby="liPass-err">
+        <p class="field-error" id="liPass-err"></p></div>
+      <button class="btn btn-block" type="submit">Log in</button>
+    </form>
+
+    <form id="panelRegister" role="tabpanel" aria-labelledby="tabRegister" hidden novalidate>
+      <div class="field"><label for="reUser">Choose a username</label>
+        <input class="input" id="reUser" name="username" autocomplete="username" autocapitalize="none" spellcheck="false" maxlength="20" required aria-describedby="reUser-hint reUser-err">
+        <span class="hint-line" id="reUser-hint">3 to 20 letters, numbers or underscores. Lowercase only.</span>
+        <p class="field-error" id="reUser-err"></p></div>
+      <div class="field"><label for="rePass">Choose a password</label>
+        <input class="input" id="rePass" name="password" type="password" autocomplete="new-password" required aria-describedby="rePass-hint rePass-err">
+        <span class="hint-line" id="rePass-hint">At least 8 characters. There is no email, so there is no password reset. Keep it safe.</span>
+        <p class="field-error" id="rePass-err"></p></div>
+      <button class="btn btn-block" type="submit">Create account</button>
+    </form>
+  </div>
+</main>
+{{> footer}}
+<script type="module" src="/js/pages/login.js"></script>
+</body>
+</html>

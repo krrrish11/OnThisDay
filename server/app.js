@@ -1,17 +1,28 @@
 import express from 'express';
 import compression from 'compression';
+import { randomBytes } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { createRenderer } from './views.js';
+import { createRenderer, escapeHtml } from './views.js';
 import { inlineScriptHashes, securityHeaders } from './middleware/security.js';
 import { apiLimiter } from './middleware/rateLimit.js';
 import { apiNotFound, errorHandler } from './middleware/errors.js';
 import { historyRouter } from './routes/history.js';
 import { summaryRouter } from './routes/summary.js';
 import { visitorsRouter } from './routes/visitors.js';
+import { authRouter } from './routes/auth.js';
+import { myNotesRouter, notesRouter, onThisDayRouter } from './routes/notes.js';
+import { adminRouter } from './routes/admin.js';
+import { createSessions } from './auth/sessions.js';
+import { attachUser } from './middleware/auth.js';
+import { sameOrigin } from './middleware/sameOrigin.js';
+import { createNoteRateLimit } from './middleware/noteRateLimit.js';
+import { normalizeId } from './utils/ids.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = { '/': 'index', '/visitors': 'visitors', '/about': 'about', '/entry': 'entry' };
+// route -> view file. Pages in NO_SITEMAP are reachable but not worth a search result.
+const PAGES = { '/': 'index', '/wall': 'wall', '/add': 'add', '/my-notes': 'mynotes', '/login': 'login', '/about': 'about', '/entry': 'entry', '/admin': 'admin' };
+const NO_SITEMAP = new Set(['/entry', '/my-notes', '/login', '/admin']);
 
 const parseTrustProxy = (v) => (v === 'true' ? true : v === 'false' ? false : /^\d+$/.test(String(v)) ? Number(v) : v);
 
@@ -21,7 +32,12 @@ export function createApp({ store, wikipedia, config }) {
   app.set('trust proxy', parseTrustProxy(config.trustProxy));
 
   const render = createRenderer({ viewsDir: join(ROOT, 'views'), siteUrl: config.siteUrl, cache: config.isProd });
-  const hashes = inlineScriptHashes([...Object.values(PAGES), '404'].map((v) => render(v)));
+  const hashes = inlineScriptHashes([...Object.values(PAGES), '404', 'note'].map((v) => render(v)));
+
+  // Login cookies need a secret. In production without one, accounts are simply off (guests still work).
+  const sessionSecret = config.sessionSecret || (config.isProd ? '' : randomBytes(32).toString('hex'));
+  const sessions = sessionSecret ? createSessions({ secret: sessionSecret, secure: config.isProd }) : null;
+  const consumeRate = createNoteRateLimit({ rate: store.rate, secret: sessionSecret || 'otd-rate-limit', perHour: config.notePostLimit ?? 10 });
 
   app.use(securityHeaders({ hashes, isProd: config.isProd }));
   app.use(compression());
@@ -41,7 +57,7 @@ export function createApp({ store, wikipedia, config }) {
   );
 
   // ---- API ----
-  app.use('/api', apiLimiter);
+  app.use('/api', apiLimiter, sameOrigin(), attachUser(sessions));
   app.get('/api/health', (_req, res) => {
     const ok = store.ping();
     res.status(ok ? 200 : 503).json({ ok, store: store.kind, uptime: Math.round(process.uptime()) });
@@ -49,17 +65,43 @@ export function createApp({ store, wikipedia, config }) {
   app.use('/api/history', historyRouter({ wikipedia }));
   app.use('/api/summary', summaryRouter({ wikipedia }));
   app.use('/api/visitors', visitorsRouter({ store, adminToken: config.adminToken, postsPerHour: config.visitorPostLimit }));
+  app.use('/api/auth', authRouter({ store, sessions }));
+  app.use('/api/notes', notesRouter({ store, consumeRate, sessionsEnabled: Boolean(sessions) }));
+  app.use('/api/my-notes', myNotesRouter({ store }));
+  app.use('/api/on-this-day', onThisDayRouter({ store }));
+  app.use('/api/admin', adminRouter({ store, adminToken: config.adminToken }));
   app.use('/api', apiNotFound);
 
   // ---- Pages ----
   for (const [route, view] of Object.entries(PAGES)) {
     app.get(route, (_req, res) => res.set('Cache-Control', 'no-cache').type('html').send(render(view)));
   }
+  app.get('/visitors', (_req, res) => res.redirect(301, '/wall')); // the old visitor wall became the notes wall
+
+  // A single note. Public notes get their own title and picture so a shared link previews nicely.
+  app.get('/n/:id', async (req, res, next) => {
+    try {
+      const id = normalizeId(req.params.id);
+      if (!id) return res.status(404).set('Cache-Control', 'no-cache').type('html').send(render('404'));
+      const row = await store.notes.getById(id);
+      const vars = { title: 'A note — On This Day', desc: 'A moment worth remembering, pinned to a date on On This Day.' };
+      let image = '';
+      if (row && !row.isPrivate) {
+        const first = row.text.replace(/\s+/g, ' ');
+        vars.title = `${first.length > 60 ? `${first.slice(0, 57)}…` : first} — On This Day`;
+        vars.desc = first.length > 180 ? `${first.slice(0, 177)}…` : first;
+        if (row.hasPhoto) image = `<meta property="og:image" content="${escapeHtml(`${config.siteUrl}/api/notes/${id}/photo`)}">`;
+      }
+      res.set('Cache-Control', 'no-store').type('html').send(render('note', { page: 'wall', vars: { ...vars, id }, html: { ogImage: image } }));
+    } catch (err) {
+      next(err);
+    }
+  });
   app.get('/robots.txt', (_req, res) =>
     res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${config.siteUrl}/sitemap.xml\n`),
   );
   app.get('/sitemap.xml', (_req, res) => {
-    const urls = Object.keys(PAGES).filter((p) => p !== '/entry').map((p) => `  <url><loc>${config.siteUrl}${p === '/' ? '/' : p}</loc></url>`).join('\n');
+    const urls = Object.keys(PAGES).filter((p) => !NO_SITEMAP.has(p)).map((p) => `  <url><loc>${config.siteUrl}${p === '/' ? '/' : p}</loc></url>`).join('\n');
     res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
   });
   app.use((_req, res) => res.status(404).set('Cache-Control', 'no-cache').type('html').send(render('404')));

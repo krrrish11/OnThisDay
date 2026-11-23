@@ -17,3 +17,19 @@
 .site-footer a{color:var(--accent-deep);text-underline-offset:3px}
 .site-footer .fine{font:400 12px/1.7 var(--mono)}
 @media (min-width:860px){.site-footer-in{grid-template-columns:1fr auto;align-items:start}}
+
+/* Nav: the "Add a note" call to action and the account link */
+.site-nav .nav-add{background:var(--accent);color:#fff;border-radius:999px;padding:0 16px}
+.site-nav .nav-add:hover{background:var(--accent-deep);color:#fff}
+.site-nav .nav-add[aria-current="page"]{box-shadow:none;background:var(--accent-deep);color:#fff}
+.site-nav .short{display:none}
+@media (max-width:700px){
+  .site-nav ul{gap:0}
+  .site-nav a{padding:0 9px}
+  .site-nav .nav-add{padding:0 13px;margin:0 4px}
+}
+@media (max-width:560px){
+  .nav-about{display:none}
+  .site-nav .long{display:none}
+  .site-nav .short{display:inline}
+}

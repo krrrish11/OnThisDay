@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My notes — On This Day</title>
+<meta name="description" content="Your notes, public and private.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{{siteUrl}}/my-notes">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="My notes — On This Day">
+<meta property="og:description" content="Your notes, public and private.">
+<meta property="og:url" content="{{siteUrl}}/my-notes">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/notes.css">
+</head>
+<body>
+{{> header}}
+<div class="page-head">
+  <div class="page-head-in head-row">
+    <div>
+      <h1>My notes</h1>
+      <p id="who">Your public and private notes in one place.</p>
+    </div>
+    <div class="head-actions">
+      <a class="btn" href="/add">Add a note</a>
+      <button class="btn-quiet" id="logout" type="button" hidden>Log out</button>
+    </div>
+  </div>
+</div>
+
+<main id="main" class="wall-main" tabindex="-1">
+  <div id="gate" hidden></div>
+  <div id="mine" hidden>
+    <form class="filters" id="filters" role="search" aria-label="Search and filter notes" novalidate>
+      <label class="search search-wide">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>
+        <span class="vh">Search notes by word, name or ID</span>
+        <input id="q" type="search" placeholder="Search words, a name or an ID like K7M2QX" autocomplete="off" spellcheck="false" maxlength="80">
+      </label>
+      <div class="date-filter" role="group" aria-label="Filter by date">
+        <label class="select"><span class="vh">Month</span><select id="fMonth"></select></label>
+        <label class="select"><span class="vh">Day</span><select id="fDay"></select></label>
+        <label class="year"><span class="vh">Year</span><input class="input" id="fYear" type="number" inputmode="numeric" placeholder="Year" min="1900" max="2200"></label>
+      </div>
+      <button class="btn-quiet" id="clearFilters" type="button" hidden>Clear</button>
+    </form>
+    <p class="results-meta" id="meta" aria-live="polite"></p>
+    <div id="list"></div>
+  </div>
+</main>
+{{> footer}}
+<script type="module" src="/js/pages/mynotes.js"></script>
+</body>
+</html>

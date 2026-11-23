@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add a note — On This Day</title>
+<meta name="description" content="Pin a short note, a date and one photo to a day worth remembering. No account needed.">
+<link rel="canonical" href="{{siteUrl}}/add">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="Add a note — On This Day">
+<meta property="og:description" content="Pin a short note, a date and one photo to a day worth remembering. No account needed.">
+<meta property="og:url" content="{{siteUrl}}/add">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/notes.css">
+<link rel="stylesheet" href="/css/add.css">
+</head>
+<body>
+{{> header}}
+<main id="main" class="add-main" tabindex="-1">
+  <div class="add-card" id="addCard">
+    <div id="formView">
+      <h1>Pin a memory</h1>
+      <p class="add-sub">A few words, a date, and a photo if you have one. It takes under a minute, and you do not need an account.</p>
+      <form id="noteForm" novalidate>
+        <div class="field">
+          <label for="text">Your note</label>
+          <textarea class="input" id="text" name="text" rows="5" maxlength="2000" required aria-describedby="text-err text-count" placeholder="What happened on this day, and why does it matter to you?"></textarea>
+          <span class="counter" id="text-count">0 / 2000</span>
+          <p class="field-error" id="text-err"></p>
+        </div>
+
+        <div class="row2">
+          <div class="field">
+            <label for="date">Date</label>
+            <input class="input" id="date" name="date" type="date" min="1900-01-01" required aria-describedby="date-err">
+            <p class="field-error" id="date-err"></p>
+          </div>
+          <div class="field">
+            <label for="name">Name <span class="opt">(optional)</span></label>
+            <input class="input" id="name" name="name" type="text" maxlength="40" autocomplete="nickname" placeholder="Shown on the note" aria-describedby="name-err">
+            <p class="field-error" id="name-err"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label" id="photo-label">Photo <span class="opt">(optional, one)</span></span>
+          <div class="photo-pick" id="photoPick">
+            <input class="vh" id="photo" type="file" accept="image/jpeg,image/png,image/webp" aria-labelledby="photo-label">
+            <label class="drop" for="photo" id="drop">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg>
+              <span>Choose a photo</span>
+              <small>JPG, PNG or WebP. It is shrunk on your device before upload.</small>
+            </label>
+            <div class="preview" id="preview" hidden>
+              <img id="previewImg" alt="Preview of the photo you chose">
+              <div>
+                <p id="previewInfo"></p>
+                <button class="btn-quiet" id="removePhoto" type="button">Remove photo</button>
+              </div>
+            </div>
+          </div>
+          <p class="field-error" id="photo-err"></p>
+        </div>
+
+        <fieldset class="privacy">
+          <legend>Who can see it</legend>
+          <div class="seg" id="seg">
+            <label class="seg-opt"><input type="radio" name="visibility" value="public" checked><span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18"/></svg>
+              Public</span></label>
+            <label class="seg-opt"><input type="radio" name="visibility" value="private"><span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/></svg>
+              Private</span></label>
+          </div>
+          <p class="seg-hint" id="segHint">Public notes appear on the wall and in search. Links are not allowed in them.</p>
+        </fieldset>
+
+        <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-status" id="formStatus" role="status"></p>
+        <button class="btn btn-block" id="save" type="submit">Save note</button>
+      </form>
+    </div>
+
+    <div id="doneView" hidden></div>
+  </div>
+</main>
+{{> footer}}
+<script type="module" src="/js/pages/add.js"></script>
+</body>
+</html>

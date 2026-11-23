@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{var:title}}</title>
+<meta name="description" content="{{var:desc}}">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="{{siteUrl}}/n/{{var:id}}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="On This Day">
+<meta property="og:title" content="{{var:title}}">
+<meta property="og:description" content="{{var:desc}}">
+<meta property="og:url" content="{{siteUrl}}/n/{{var:id}}">
+<meta name="twitter:card" content="summary">
+{{> head-assets}}
+<link rel="stylesheet" href="/css/notes.css">
+<link rel="stylesheet" href="/css/notepage.css">
+{{html:ogImage}}
+</head>
+<body>
+{{> header}}
+<main id="main" class="note-main" tabindex="-1">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/wall">&larr; Back to the wall</a></nav>
+  <div id="note" aria-live="polite" aria-busy="true"></div>
+  <noscript><p class="nojs">This page needs JavaScript to load the note.</p></noscript>
+</main>
+{{> footer}}
+<script type="module" src="/js/pages/note.js"></script>
+</body>
+</html>

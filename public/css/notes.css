@@ -1,0 +1,87 @@
+/* Notes: page headers, filters, cards, grid, memories. Shared by Explore, Wall, My notes, Admin and the note page. */
+.page-head{background:linear-gradient(180deg,var(--chrome),var(--background));padding:clamp(28px,5vw,56px) clamp(18px,4vw,48px) 12px}
+.page-head-in{max-width:1240px;margin:0 auto}
+.page-head h1{margin:0;font:600 clamp(34px,6vw,64px)/1.05 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.01em}
+.page-head p{margin:14px 0 0;max-width:58ch;color:var(--text-muted);font-size:18px}
+.head-row{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px}
+.head-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.wall-main{max-width:1240px;margin:0 auto;padding:24px clamp(18px,4vw,48px) 90px}
+.counter{justify-self:end;font:400 12px var(--mono);color:var(--text-muted)}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.form-status{margin:0;padding:10px 12px;border-radius:6px;font:500 13px/1.5 var(--mono);display:none}
+.form-status.ok{display:block;background:rgba(47,107,148,.12);color:var(--accent-deep)}
+.form-status.bad{display:block;background:rgba(162,59,59,.1);color:var(--danger)}
+
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.search{display:flex;align-items:center;gap:8px;height:44px;padding:0 12px;background:var(--surface-elevated);border:1px solid var(--border-strong);border-radius:6px;color:var(--text-muted);transition:border-color .2s}
+.search:focus-within{border-color:var(--accent)}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;font:400 13px var(--mono);color:var(--text)}
+.search input::placeholder{color:var(--text-muted)}
+.search-wide{flex:1 1 280px}
+.date-filter{display:flex;gap:8px;flex-wrap:wrap}
+.date-filter .select select{min-width:120px}
+.date-filter .select select:disabled{opacity:.55;cursor:not-allowed}
+.date-filter .year{width:96px}
+.date-filter .year .input{height:44px;min-height:44px;padding:0 10px;font:500 14px var(--mono)}
+.filters .btn-quiet{height:44px}
+.results-meta{margin:0 0 16px;min-height:1.4em;font:400 13px var(--mono);color:var(--text-muted)}
+[hidden]{display:none!important}
+
+/* cards */
+.ngrid{list-style:none;margin:0;padding:0;display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr))}
+.ncard{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden;transition:transform .25s var(--ease),border-color .2s,box-shadow .25s}
+.ncard:hover,.ncard:focus-within{transform:translateY(-3px);border-color:var(--accent)}
+.ncard:active{transform:translateY(-1px)}
+.nphoto{aspect-ratio:4/3;background:linear-gradient(145deg,#d3dfe6,#9fb0ba);display:grid;place-items:center;color:var(--text-muted);overflow:hidden}
+.nphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.ncard-body{display:flex;flex-direction:column;gap:10px;padding:16px 18px 14px;flex:1}
+.ncard-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.date-chip{padding:3px 10px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.7);color:var(--accent-deep);font:500 12px var(--mono);text-decoration:none}
+.badge-vis{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;background:rgba(20,34,44,.08);color:var(--text);font:500 11.5px var(--mono)}
+.ncard-text{margin:0;font-size:17px;line-height:1.55;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-line;flex:1}
+.ncard.has-photo .ncard-text{-webkit-line-clamp:3}
+.ncard-link{color:inherit;text-decoration:none}
+.ncard-link::after{content:"";position:absolute;inset:0;z-index:1}
+.ncard-link:focus-visible{outline:none}
+.ncard:has(.ncard-link:focus-visible){outline:2px solid var(--accent-deep);outline-offset:2px}
+.ncard-foot{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;font:400 12.5px var(--mono);color:var(--text-muted);margin-top:auto}
+.ncard-foot .who{color:var(--text);font-weight:500;overflow-wrap:anywhere}
+.nid{font:500 12px var(--mono);letter-spacing:.06em;color:var(--accent-deep);margin-left:auto}
+.npage-by .nid{margin-left:12px}
+.ncard.sk{min-height:210px;box-shadow:none}
+.ncard.compact{min-width:240px}
+.ncard.compact .nphoto{aspect-ratio:16/9}
+
+/* delete control (sits above the card's stretched link) */
+.del{position:relative;z-index:2;display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin-left:auto;flex-basis:100%;justify-content:flex-end}
+.del-confirm{display:inline-flex;align-items:center;gap:10px}
+.del-msg{flex-basis:100%;text-align:right;color:var(--danger);font:400 12px var(--mono)}
+.link-btn{background:none;border:0;padding:6px 4px;min-height:32px;font:500 12.5px var(--mono);color:var(--text-muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.link-btn:hover{color:var(--text)}
+.link-btn.danger{color:var(--danger)}
+.btn-danger{height:36px;padding:0 14px;border:1px solid var(--danger);border-radius:6px;background:var(--danger);color:#fff;font:500 12.5px var(--mono);cursor:pointer}
+.btn-danger:hover{filter:brightness(.92)}
+.btn-danger[disabled]{opacity:.6;cursor:progress}
+.nid + .del{flex-basis:auto;margin-left:0}
+
+.more{display:flex;justify-content:center;margin-top:26px}
+
+/* moderation */
+.admin-key{display:grid;gap:10px;max-width:420px;margin:12px 0}
+.admin-key label{font:500 13px var(--mono)}
+
+/* Explore: memories from the wall */
+.memories{padding:8px clamp(18px,4vw,48px) 36px}
+.memories-in{max-width:1240px;margin:0 auto;padding:clamp(18px,3vw,28px);background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow)}
+.mem-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.mem-kicker{margin:0 0 2px;font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-deep)}
+.mem-head h2{margin:0;font:600 clamp(22px,3vw,30px)/1.2 var(--serif);font-variation-settings:"opsz" 72}
+.mem-groups{display:grid;gap:22px}
+.mem-group h3{margin:0 0 10px;font:500 14px var(--mono);color:var(--text-muted)}
+.mem-year{margin-left:6px;color:var(--accent-deep)}
+.mem-row{list-style:none;margin:0;padding:0;display:flex;gap:14px;overflow-x:auto;padding-bottom:10px;scroll-snap-type:x proximity}
+.mem-row>*{flex:0 0 min(78vw,300px);scroll-snap-align:start}
+.memories .state{margin:12px auto;border-style:dashed}
+.memories .state .btn{display:inline-flex}

@@ -1,0 +1,17 @@
+/* A single note */
+.note-main{max-width:820px;margin:0 auto;padding:clamp(20px,4vw,40px) clamp(18px,4vw,32px) 90px}
+.crumbs{margin-bottom:20px}
+.crumbs a{display:inline-flex;align-items:center;font:500 13px var(--mono);color:var(--accent-deep);text-decoration:none;padding:6px 2px}
+.crumbs a:hover{text-decoration:underline;text-underline-offset:4px}
+.npage{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.npage-photo{aspect-ratio:auto;max-height:70vh;background:#dbe5eb}
+.npage-photo img{width:100%;height:auto;max-height:70vh;object-fit:contain}
+.npage-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;padding:clamp(20px,4vw,32px) clamp(20px,4vw,36px) 0}
+.npage-date{margin:0;font:300 clamp(34px,7vw,56px)/1.05 var(--serif);font-variation-settings:"opsz" 144;letter-spacing:-.02em;color:var(--accent)}
+.npage-ago{margin:0;font:italic 400 18px var(--serif);color:var(--text-muted)}
+.npage-text{padding:18px clamp(20px,4vw,36px) 0;font-size:clamp(18px,2.4vw,21px);line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}
+.npage-by{margin:18px clamp(20px,4vw,36px) 0;font:500 14px var(--mono);color:var(--text-muted)}
+.npage-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:22px clamp(20px,4vw,36px) clamp(20px,4vw,32px)}
+.npage-actions .del{margin-left:auto;flex-basis:auto}
+.npage-sk{height:360px;border-radius:14px}
+.nojs{text-align:center;color:var(--text-muted)}

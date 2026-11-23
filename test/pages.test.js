@@ -4,7 +4,7 @@ import { startApp } from './helpers.js';
 
 test('pages: each route renders with shared navbar/footer and the right current link', async () => {
   const t = await startApp();
-  const expect = { '/': 'Explore', '/visitors': 'Visitors', '/about': 'About' };
+  const expect = { '/': 'Explore', '/wall': 'Wall', '/about': 'About', '/add': 'Add a note', '/login': 'Log in' };
   for (const [path, name] of Object.entries(expect)) {
     const r = await fetch(`${t.base}${path}`);
     assert.equal(r.status, 200, path);
@@ -12,7 +12,7 @@ test('pages: each route renders with shared navbar/footer and the right current 
     assert.match(html, /<header class="site-header">/);
     assert.match(html, /<footer class="site-footer">/);
     assert.doesNotMatch(html, /\{\{/, 'no unreplaced template tokens');
-    const current = [...html.matchAll(/<a href="[^"]*" aria-current="page">([^<]+)</g)].map((m) => m[1]);
+    const current = [...html.matchAll(/<a [^>]*aria-current="page"[^>]*>(.*?)<\/a>/g)].map((m) => m[1].replace(/<[^>]+>/g, ' ').trim().split(/\s{2,}|\s(?=Add$)/)[0]);
     assert.deepEqual(current, [name], path);
     assert.match(html, /<link rel="canonical" href="http:\/\/test\.local/);
   }
@@ -47,6 +47,8 @@ test('pages: static assets, vendor three.js, robots and sitemap are served', asy
   for (const [p, type] of [
     ['/css/base.css', /css/],
     ['/js/pages/explore.js', /javascript/],
+    ['/js/pages/add.js', /javascript/],
+    ['/css/notes.css', /css/],
     ['/fonts/fraunces-latin-opsz-normal.woff2', /woff2|octet/],
     ['/vendor/three/build/three.module.js', /javascript/],
     ['/vendor/three/examples/jsm/environments/RoomEnvironment.js', /javascript/],
@@ -59,7 +61,7 @@ test('pages: static assets, vendor three.js, robots and sitemap are served', asy
     assert.equal(r.status, 200, p);
     assert.match(r.headers.get('content-type') || '', type, p);
   }
-  assert.match(await (await fetch(`${t.base}/sitemap.xml`)).text(), /http:\/\/test\.local\/visitors/);
+  assert.match(await (await fetch(`${t.base}/sitemap.xml`)).text(), /http:\/\/test\.local\/wall/);
   await t.close();
 });
 

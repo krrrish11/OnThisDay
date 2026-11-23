@@ -17,7 +17,7 @@ export function securityHeaders({ hashes, isProd }) {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", ...hashes.map((h) => `'sha256-${h}'`)],
     styleSrc: ["'self'"],
-    imgSrc: ["'self'", 'data:', 'https://*.wikimedia.org'],
+    imgSrc: ["'self'", 'data:', 'blob:', 'https://*.wikimedia.org'], // blob: for the photo preview before upload
     fontSrc: ["'self'"],
     connectSrc: ["'self'"],
     objectSrc: ["'none'"],

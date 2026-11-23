@@ -9,7 +9,9 @@ export const config = {
   port,
   mongoUri: env.MONGO_URI || '',
   siteUrl: (env.SITE_URL || `http://localhost:${port}`).replace(/\/+$/, ''),
-  adminToken: env.ADMIN_TOKEN || '',
+  adminToken: env.ADMIN_TOKEN || env.ADMIN_KEY || '',
+  sessionSecret: env.SESSION_SECRET || '', // signs login cookies; without it (in production) accounts are switched off
+  notePostLimit: Number(env.NOTE_POSTS_PER_HOUR) || 10,
   trustProxy: env.TRUST_PROXY ?? (isProd ? '1' : 'false'),
   historyTtlMs: (Number(env.HISTORY_TTL_HOURS) || 6) * 3600 * 1000,
   wikiContact: env.WIKI_CONTACT || env.SITE_URL || 'https://github.com/krrrish11',

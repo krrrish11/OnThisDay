@@ -16,6 +16,7 @@
 {{> head-assets}}
 <link rel="stylesheet" href="/css/hero.css">
 <link rel="stylesheet" href="/css/explore.css">
+<link rel="stylesheet" href="/css/notes.css">
 <script type="importmap">
 {"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}
 </script>
@@ -45,6 +46,19 @@
   </div>
  </div>
 </div>
+
+<section class="memories" aria-labelledby="memHead">
+  <div class="memories-in">
+    <div class="mem-head">
+      <div>
+        <p class="mem-kicker">Memories</p>
+        <h2 id="memHead">From the wall</h2>
+      </div>
+      <a class="btn-quiet" id="memAdd" href="/add">Add a memory</a>
+    </div>
+    <div id="memBody" aria-live="polite"></div>
+  </div>
+</section>
 
 <div class="layout">
   <div class="bar">

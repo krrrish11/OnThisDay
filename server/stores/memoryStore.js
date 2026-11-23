@@ -1,5 +1,6 @@
 import { randomBytes } from 'node:crypto';
 import { decodeCursor, encodeCursor, toPublic } from './cursor.js';
+import { createMemoryNotes, createMemoryRate, createMemoryUsers } from './memoryAccounts.js';
 
 /** Development/test store. Data disappears on restart — never used in production. */
 export function createMemoryStore({ max = 500 } = {}) {
@@ -7,6 +8,9 @@ export function createMemoryStore({ max = 500 } = {}) {
 
   return {
     kind: 'memory',
+    notes: createMemoryNotes(),
+    users: createMemoryUsers(),
+    rate: createMemoryRate(),
     async list({ limit, before }) {
       const cur = decodeCursor(before);
       let start = 0;

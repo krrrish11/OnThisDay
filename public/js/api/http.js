@@ -7,7 +7,7 @@ export class ApiError extends Error {
 }
 
 /** fetch + JSON + timeout. Every failure becomes an ApiError so callers handle one shape. */
-export async function request(path, { method = 'GET', body, timeoutMs = 12000, signal } = {}) {
+export async function request(path, { method = 'GET', body, headers = {}, timeoutMs = 12000, signal } = {}) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   signal?.addEventListener('abort', () => ctrl.abort(), { once: true });
@@ -15,7 +15,7 @@ export async function request(path, { method = 'GET', body, timeoutMs = 12000, s
     const res = await fetch(path, {
       method,
       signal: ctrl.signal,
-      headers: body ? { 'content-type': 'application/json', accept: 'application/json' } : { accept: 'application/json' },
+      headers: { accept: 'application/json', ...(body ? { 'content-type': 'application/json' } : {}), ...headers },
       body: body ? JSON.stringify(body) : undefined,
     });
     let data = null;
